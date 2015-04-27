@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:esb="http:///org/wso2/developerstudio/eclipse/gmf/esb" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_j41uwOykEeSJsfKqc1XtMw" type="Esb" name="endpoint_StellerFriendBotEndpoint.esb_diagram" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_j5fPAOykEeSJsfKqc1XtMw" type="2001">
+    <children xmi:type="notation:DecorationNode" xmi:id="_j5fPBeykEeSJsfKqc1XtMw" type="7001"/>
+    <children xmi:type="notation:Shape" xmi:id="_OyFQEOynEeSJsfKqc1XtMw" type="3642" fontName=".Helvetica Neue DeskInterface">
+      <children xmi:type="notation:BasicCompartment" xmi:id="_OyFQEuynEeSJsfKqc1XtMw" type="7041">
+        <children xmi:type="notation:Node" xmi:id="_OyHsUOynEeSJsfKqc1XtMw" type="3712">
+          <styles xmi:type="notation:DescriptionStyle" xmi:id="_OyHsUeynEeSJsfKqc1XtMw"/>
+          <styles xmi:type="notation:FontStyle" xmi:id="_OyHsUuynEeSJsfKqc1XtMw" fontName=".Helvetica Neue DeskInterface"/>
+          <styles xmi:type="notation:LineStyle" xmi:id="_OyHsU-ynEeSJsfKqc1XtMw"/>
+          <element xmi:type="esb:HTTPEndpoint" href="endpoint_StellerFriendBotEndpoint.esb#//@server/@children.0/@child"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OyHsVOynEeSJsfKqc1XtMw" width="75" height="75"/>
+        </children>
+        <styles xmi:type="notation:TitleStyle" xmi:id="_OyFQE-ynEeSJsfKqc1XtMw" showTitle="true"/>
+      </children>
+      <element xmi:type="esb:EndpointDiagram" href="endpoint_StellerFriendBotEndpoint.esb#//@server/@children.0"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OyFQEeynEeSJsfKqc1XtMw" width="86" height="97"/>
+    </children>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_j5fPAeykEeSJsfKqc1XtMw"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_j5fPAuykEeSJsfKqc1XtMw" fontName=".Helvetica Neue DeskInterface"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_j5fPA-ykEeSJsfKqc1XtMw"/>
+    <element xmi:type="esb:EsbServer" href="endpoint_StellerFriendBotEndpoint.esb#//@server"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_j5fPBOykEeSJsfKqc1XtMw"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_j41uweykEeSJsfKqc1XtMw"/>
+  <element xmi:type="esb:EsbDiagram" href="endpoint_StellerFriendBotEndpoint.esb#/"/>
+</notation:Diagram>

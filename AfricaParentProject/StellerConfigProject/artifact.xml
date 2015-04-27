@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<artifacts>
+   <artifact name="StellerAPI"
+             groupId="com.example.africa.api"
+             version="1.0.0"
+             type="synapse/api"
+             serverRole="EnterpriseServiceBus">
+      <file>src/main/synapse-config/api/StellerAPI.xml</file>
+   </artifact>
+   <artifact name="StellerTestEndpoint"
+             groupId="com.example.africa.endpoint"
+             version="1.0.0"
+             type="synapse/endpoint"
+             serverRole="EnterpriseServiceBus">
+      <file>src/main/synapse-config/endpoints/StellerTestEndpoint.xml</file>
+   </artifact>
+   <artifact name="StellerFriendBotEndpoint"
+             groupId="com.example.africa.endpoint"
+             version="1.0.0"
+             type="synapse/endpoint"
+             serverRole="EnterpriseServiceBus">
+      <file>src/main/synapse-config/endpoints/StellerFriendBotEndpoint.xml</file>
+   </artifact>
+</artifacts>

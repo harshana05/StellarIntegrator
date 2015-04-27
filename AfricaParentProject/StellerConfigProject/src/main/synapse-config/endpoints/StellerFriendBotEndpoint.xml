@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoint xmlns="http://ws.apache.org/ns/synapse" name="StellerFriendBotEndpoint">
+   <http method="get"
+         uri-template="https://api-stg.stellar.org/friendbot?address={query.param.address}"/>
+</endpoint>
