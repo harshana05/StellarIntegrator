@@ -102,4 +102,52 @@
       </outSequence>
       <faultSequence/>
    </resource>
+   <resource methods="POST" uri-template="/payment">
+      <inSequence>
+         <payloadFactory media-type="json">
+            <format>
+            {
+  "method": "submit",
+  "params": [
+    {
+      "secret": "sfwtwgV3zHekZMm6F2cNPzEGzogQqPMEZcdVftKnrstngZvotYr",
+      "tx_json": {
+        "TransactionType": "Payment",
+        "Account": "gM4Fpv2QuHY4knJsQyYGKEHFGw3eMBwc1U",
+        "Destination": "g4eRqgZfzfj3132y17iaf2fp6HQj1gofjt",
+        "Amount": {
+          "currency": "USD",
+          "value": "2",
+          "issuer": "gBAde4mkDijZatAdNhBzCsuC7GP4MzhA3B"
+        }
+      }
+    }
+  ]
+}
+           </format>
+            <args/>
+         </payloadFactory>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <property name="FORCE_HTTP_1.0" value="true" scope="axis2" type="STRING"/>
+         <property name="DISABLE_CHUNKING"
+                   value="true"
+                   scope="axis2"
+                   type="STRING"/>
+         <send>
+            <endpoint key="StellerTestEndpoint"/>
+         </send>
+      </inSequence>
+      <outSequence>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <log level="full"/>
+         <send/>
+      </outSequence>
+      <faultSequence/>
+   </resource>
 </api>
