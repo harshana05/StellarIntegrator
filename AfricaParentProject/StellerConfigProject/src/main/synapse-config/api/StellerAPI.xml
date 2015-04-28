@@ -102,10 +102,38 @@
       </outSequence>
       <faultSequence/>
    </resource>
-   <resource methods="POST" uri-template="/payment">
+   <resource methods="POST" uri-template="/payment?type={type}">
       <inSequence>
-         <payloadFactory media-type="json">
-            <format>
+         <filter source="get-property('query.param.type')" regex="STR">
+            <then>
+               <payloadFactory media-type="json">
+                  <format>
+            {
+  "method": "submit",
+  "params": [
+    {
+      "secret": "$1",
+      "tx_json": {
+        "TransactionType": "Payment",
+        "Account": "$2",
+        "Destination": "$3",
+        "Amount": "$4"
+      }
+    }
+  ]
+}
+           </format>
+                  <args>
+                     <arg evaluator="json" expression="$.SourceSecret"/>
+                     <arg evaluator="json" expression="$.SourceAcctId"/>
+                     <arg evaluator="json" expression="$.DestinationAcctId"/>
+                     <arg evaluator="json" expression="$.Amount"/>
+                  </args>
+               </payloadFactory>
+            </then>
+            <else>
+               <payloadFactory media-type="json">
+                  <format>
             {
   "method": "submit",
   "params": [
@@ -125,15 +153,17 @@
   ]
 }
            </format>
-            <args>
-               <arg evaluator="json" expression="$.SourceSecret"/>
-               <arg evaluator="json" expression="$.SourceAcctId"/>
-               <arg evaluator="json" expression="$.DestinationAcctId"/>
-               <arg evaluator="json" expression="$.Amount.Currency"/>
-               <arg evaluator="json" expression="$.Amount.Value"/>
-               <arg evaluator="json" expression="$.Amount.IssuerId"/>
-            </args>
-         </payloadFactory>
+                  <args>
+                     <arg evaluator="json" expression="$.SourceSecret"/>
+                     <arg evaluator="json" expression="$.SourceAcctId"/>
+                     <arg evaluator="json" expression="$.DestinationAcctId"/>
+                     <arg evaluator="json" expression="$.Amount.Currency"/>
+                     <arg evaluator="json" expression="$.Amount.Value"/>
+                     <arg evaluator="json" expression="$.Amount.IssuerId"/>
+                  </args>
+               </payloadFactory>
+            </else>
+         </filter>
          <property name="messageType"
                    value="application/json"
                    scope="axis2"
