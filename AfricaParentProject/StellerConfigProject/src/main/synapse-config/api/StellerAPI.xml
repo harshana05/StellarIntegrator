@@ -433,4 +433,155 @@
       </outSequence>
       <faultSequence/>
    </resource>
+   <resource methods="GET" uri-template="/accountOffers?accountId={accountId}">
+      <inSequence>
+         <payloadFactory media-type="json">
+            <format>
+            {
+    "method": "account_offers",
+    "params": [
+        {
+            "account": "$1"
+        }
+    ]
+}
+           </format>
+            <args>
+               <arg evaluator="xml" expression="get-property('query.param.accountId')"/>
+            </args>
+         </payloadFactory>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <property name="FORCE_HTTP_1.0" value="true" scope="axis2" type="STRING"/>
+         <property name="DISABLE_CHUNKING"
+                   value="true"
+                   scope="axis2"
+                   type="STRING"/>
+         <send>
+            <endpoint key="StellerTestEndpoint"/>
+         </send>
+      </inSequence>
+      <outSequence>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <log level="full"/>
+         <send/>
+      </outSequence>
+      <faultSequence/>
+   </resource>
+   <resource methods="POST" uri-template="/bookOffers">
+      <inSequence>
+         <filter source="json-eval($.takerGets.Currency)" regex="STR">
+            <then>
+               <filter source="json-eval($.takerPays.Currency)" regex="STR">
+                  <then/>
+                  <else>
+                     <payloadFactory media-type="json">
+                        <format>
+            {{
+    "method": "book_offers",
+    "params": [
+        {
+            "taker_gets": {
+                "currency": "STR"
+            },
+            "taker_pays": {
+                "issuer": "$1",
+                "currency": "$2"
+            }
+        }
+    ]
+}
+           </format>
+                        <args>
+                           <arg evaluator="json" expression="$.takerPays.Issuer"/>
+                           <arg evaluator="json" expression="$.takerPays.Currency"/>
+                        </args>
+                     </payloadFactory>
+                  </else>
+               </filter>
+            </then>
+            <else>
+               <filter source="json-eval($.takerPays.Currency)" regex="STR">
+                  <then>
+                     <payloadFactory media-type="json">
+                        <format>
+            {{
+    "method": "book_offers",
+    "params": [
+        {
+            "taker_gets": {
+                "currency": "$1",
+                "issuer": "$2"
+            },
+            "taker_pays": {
+                "currency": "STR"
+            }
+        }
+    ]
+}
+           </format>
+                        <args>
+                           <arg evaluator="json" expression="$.takerGets.Currency"/>
+                           <arg evaluator="json" expression="$.takerGets.Issuer"/>
+                        </args>
+                     </payloadFactory>
+                  </then>
+                  <else>
+                     <payloadFactory media-type="json">
+                        <format>
+            {{
+    "method": "book_offers",
+    "params": [
+        {
+            "taker_gets": {
+                "currency": "$1",
+                "issuer": "$2"
+            },
+            "taker_pays": {
+                "issuer": "$3",
+                "currency": "$4"
+            }
+        }
+    ]
+}
+           </format>
+                        <args>
+                           <arg evaluator="json" expression="$.takerGets.Currency"/>
+                           <arg evaluator="json" expression="$.takerGets.Issuer"/>
+                           <arg evaluator="json" expression="$.takerPays.Issuer"/>
+                           <arg evaluator="json" expression="$.takerPays.Currency"/>
+                        </args>
+                     </payloadFactory>
+                  </else>
+               </filter>
+            </else>
+         </filter>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <property name="FORCE_HTTP_1.0" value="true" scope="axis2" type="STRING"/>
+         <property name="DISABLE_CHUNKING"
+                   value="true"
+                   scope="axis2"
+                   type="STRING"/>
+         <send>
+            <endpoint key="StellerTestEndpoint"/>
+         </send>
+      </inSequence>
+      <outSequence>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <log level="full"/>
+         <send/>
+      </outSequence>
+      <faultSequence/>
+   </resource>
 </api>
