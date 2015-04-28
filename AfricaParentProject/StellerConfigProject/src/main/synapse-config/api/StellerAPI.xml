@@ -187,4 +187,87 @@
       </outSequence>
       <faultSequence/>
    </resource>
+   <resource methods="GET" uri-template="/trx?trxHash={trxHash}">
+      <inSequence>
+         <payloadFactory media-type="json">
+            <format>
+            {
+    "method": "tx",
+    "params": [
+        {
+            "transaction": "$1"
+        }
+    ]
+}
+           </format>
+            <args>
+               <arg evaluator="xml" expression="get-property('query.param.trxHash')"/>
+            </args>
+         </payloadFactory>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <property name="FORCE_HTTP_1.0" value="true" scope="axis2" type="STRING"/>
+         <property name="DISABLE_CHUNKING"
+                   value="true"
+                   scope="axis2"
+                   type="STRING"/>
+         <send>
+            <endpoint key="StellerTestEndpoint"/>
+         </send>
+      </inSequence>
+      <outSequence>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <log level="full"/>
+         <send/>
+      </outSequence>
+      <faultSequence/>
+   </resource>
+   <resource methods="GET"
+             uri-template="/trx?trxHash={trxHash}&amp;ledgerIndex={ledgerIndex}">
+      <inSequence>
+         <payloadFactory media-type="json">
+            <format>
+            {
+    "method": "transaction_entry",
+    "params": [
+        {
+            "tx_hash": "$1",
+            "ledger_index": $2
+        }
+    ]
+}
+           </format>
+            <args>
+               <arg evaluator="xml" expression="get-property('query.param.trxHash')"/>
+               <arg evaluator="xml" expression="get-property('query.param.ledgerIndex')"/>
+            </args>
+         </payloadFactory>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <property name="FORCE_HTTP_1.0" value="true" scope="axis2" type="STRING"/>
+         <property name="DISABLE_CHUNKING"
+                   value="true"
+                   scope="axis2"
+                   type="STRING"/>
+         <send>
+            <endpoint key="StellerTestEndpoint"/>
+         </send>
+      </inSequence>
+      <outSequence>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <log level="full"/>
+         <send/>
+      </outSequence>
+      <faultSequence/>
+   </resource>
 </api>
