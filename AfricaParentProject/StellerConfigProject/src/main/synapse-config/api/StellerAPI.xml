@@ -110,22 +110,29 @@
   "method": "submit",
   "params": [
     {
-      "secret": "sfwtwgV3zHekZMm6F2cNPzEGzogQqPMEZcdVftKnrstngZvotYr",
+      "secret": "$1",
       "tx_json": {
         "TransactionType": "Payment",
-        "Account": "gM4Fpv2QuHY4knJsQyYGKEHFGw3eMBwc1U",
-        "Destination": "g4eRqgZfzfj3132y17iaf2fp6HQj1gofjt",
+        "Account": "$2",
+        "Destination": "$3",
         "Amount": {
-          "currency": "USD",
-          "value": "2",
-          "issuer": "gBAde4mkDijZatAdNhBzCsuC7GP4MzhA3B"
+          "currency": "$4",
+          "value": "$5",
+          "issuer": "$6"
         }
       }
     }
   ]
 }
            </format>
-            <args/>
+            <args>
+               <arg evaluator="json" expression="$.SourceSecret"/>
+               <arg evaluator="json" expression="$.SourceAcctId"/>
+               <arg evaluator="json" expression="$.DestinationAcctId"/>
+               <arg evaluator="json" expression="$.Amount.Currency"/>
+               <arg evaluator="json" expression="$.Amount.Value"/>
+               <arg evaluator="json" expression="$.Amount.IssuerId"/>
+            </args>
          </payloadFactory>
          <property name="messageType"
                    value="application/json"
