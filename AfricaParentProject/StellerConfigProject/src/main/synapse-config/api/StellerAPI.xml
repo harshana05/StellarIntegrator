@@ -688,4 +688,129 @@
       </outSequence>
       <faultSequence/>
    </resource>
+   <resource methods="POST" uri-template="/signPayment?type={type}">
+      <inSequence>
+         <filter source="get-property('query.param.type')" regex="STR">
+            <then>
+               <payloadFactory media-type="json">
+                  <format>
+            {
+    "method": "sign",
+    "params": [
+        {
+            "secret": "$1",
+            "tx_json": {
+                "TransactionType": "Payment",
+                "Account": "$2",
+                "Destination": "$3",
+                "Amount": "$4"
+            }
+        }
+    ]
+}
+           </format>
+                  <args>
+                     <arg evaluator="json" expression="$.APIRequest.SourceSecret"/>
+                     <arg evaluator="json" expression="$.APIRequest.SourceAcctId"/>
+                     <arg evaluator="json" expression="$.APIRequest.DestinationAcctId"/>
+                     <arg evaluator="json" expression="$.APIRequest.Amount"/>
+                  </args>
+               </payloadFactory>
+            </then>
+            <else>
+               <payloadFactory media-type="json">
+                  <format>
+            {
+    "method": "sign",
+    "params": [
+        {
+            "secret": "$1",
+            "tx_json": {
+                "TransactionType": "Payment",
+                "Account": "$2",
+                "Destination": "$3",
+                "Amount": {
+                    "currency": "$4",
+                    "issuer": "$5",
+                    "value": "$6"
+                }
+            }
+        }
+    ]
+}
+           </format>
+                  <args>
+                     <arg evaluator="json" expression="$.APIRequest.SourceSecret"/>
+                     <arg evaluator="json" expression="$.APIRequest.SourceAcctId"/>
+                     <arg evaluator="json" expression="$.APIRequest.DestinationAcctId"/>
+                     <arg evaluator="json" expression="$.APIRequest.Amount.Currency"/>
+                     <arg evaluator="json" expression="$.APIRequest.Amount.IssuerId"/>
+                     <arg evaluator="json" expression="$.APIRequest.Amount.Value"/>
+                  </args>
+               </payloadFactory>
+            </else>
+         </filter>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <property name="FORCE_HTTP_1.0" value="true" scope="axis2" type="STRING"/>
+         <property name="DISABLE_CHUNKING"
+                   value="true"
+                   scope="axis2"
+                   type="STRING"/>
+         <send>
+            <endpoint key="StellerTestEndpoint"/>
+         </send>
+      </inSequence>
+      <outSequence>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <log level="full"/>
+         <send/>
+      </outSequence>
+      <faultSequence/>
+   </resource>
+   <resource methods="POST" uri-template="/submitPayment">
+      <inSequence>
+         <payloadFactory media-type="json">
+            <format>
+            {
+    "method": "submit",
+    "params": [
+        {
+            "tx_blob": "$1"
+        }
+    ]
+}
+           </format>
+            <args>
+               <arg evaluator="json" expression="$.APIRequest.TrxBlob"/>
+            </args>
+         </payloadFactory>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <property name="FORCE_HTTP_1.0" value="true" scope="axis2" type="STRING"/>
+         <property name="DISABLE_CHUNKING"
+                   value="true"
+                   scope="axis2"
+                   type="STRING"/>
+         <send>
+            <endpoint key="StellerTestEndpoint"/>
+         </send>
+      </inSequence>
+      <outSequence>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <log level="full"/>
+         <send/>
+      </outSequence>
+      <faultSequence/>
+   </resource>
 </api>
