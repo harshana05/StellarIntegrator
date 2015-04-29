@@ -475,8 +475,31 @@
    </resource>
    <resource methods="POST" uri-template="/bookOffer">
       <inSequence>
-         <payloadFactory media-type="json">
-            <format>
+         <filter source="//APIRequest/takerGets/Currency" regex="STR">
+            <then>
+               <filter source="//APIRequest/takerPays/Currency" regex="STR">
+                  <then>
+                     <payloadFactory media-type="json">
+                        <format>
+            {
+  "APIResponse": {
+    "StatusCode": "100000",
+    "Description": "Invalid Offer Type"
+  }
+}
+           </format>
+                        <args/>
+                     </payloadFactory>
+                     <property name="messageType"
+                               value="application/json"
+                               scope="axis2"
+                               type="STRING"/>
+                     <respond/>
+                  </then>
+                  <else>
+                     <payloadFactory media-type="json">
+                        <format>
+
             {
     "method": "book_offers",
     "params": [
@@ -485,15 +508,82 @@
                 "currency": "STR"
             },
             "taker_pays": {
-                "issuer": "gnhPFpbYXcYGMkGxfWdQGFfuKEdJoEThVo",
-                "currency": "LKR"
+                "issuer": "$1",
+                "currency": "$2"
             }
         }
     ]
 }
+
            </format>
-            <args/>
-         </payloadFactory>
+                        <args>
+                           <arg evaluator="xml" expression="//APIRequest/takerPays/Issuer"/>
+                           <arg evaluator="xml" expression="//APIRequest/takerPays/Currency"/>
+                        </args>
+                     </payloadFactory>
+                  </else>
+               </filter>
+            </then>
+            <else>
+               <filter source="//APIRequest/takerPays/Currency" regex="STR">
+                  <then>
+                     <payloadFactory media-type="json">
+                        <format>
+
+            {
+    "method": "book_offers",
+    "params": [
+        {
+            "taker_gets": {
+                "currency": "$1",
+                "issuer": "$2"
+            },
+            "taker_pays": {
+                "currency": "STR"
+            }
+        }
+    ]
+}
+
+           </format>
+                        <args>
+                           <arg evaluator="xml" expression="//APIRequest/takerGets/Currency"/>
+                           <arg evaluator="xml" expression="//APIRequest/takerGets/Issuer"/>
+                        </args>
+                     </payloadFactory>
+                  </then>
+                  <else>
+                     <payloadFactory media-type="json">
+                        <format>
+
+            {
+    "method": "book_offers",
+    "params": [
+        {
+            "taker_gets": {
+                "currency": "$1",
+                "issuer": "$2"
+            },
+            "taker_pays": {
+                "issuer": "$3",
+                "currency": "$4"
+            }
+        }
+    ]
+}
+
+           </format>
+                        <args>
+                           <arg evaluator="xml" expression="//APIRequest/takerGets/Currency"/>
+                           <arg evaluator="xml" expression="//APIRequest/takerGets/Issuer"/>
+                           <arg evaluator="xml" expression="//APIRequest/takerPays/Issuer"/>
+                           <arg evaluator="xml" expression="//APIRequest/takerPays/Currency"/>
+                        </args>
+                     </payloadFactory>
+                  </else>
+               </filter>
+            </else>
+         </filter>
          <property name="messageType"
                    value="application/json"
                    scope="axis2"
