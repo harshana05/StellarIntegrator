@@ -657,4 +657,35 @@
       </outSequence>
       <faultSequence/>
    </resource>
+   <resource methods="GET" uri-template="/getLedger">
+      <inSequence>
+         <payloadFactory media-type="json">
+            <format>
+            { "method" : "ledger" }
+           </format>
+            <args/>
+         </payloadFactory>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <property name="FORCE_HTTP_1.0" value="true" scope="axis2" type="STRING"/>
+         <property name="DISABLE_CHUNKING"
+                   value="true"
+                   scope="axis2"
+                   type="STRING"/>
+         <send>
+            <endpoint key="StellerTestEndpoint"/>
+         </send>
+      </inSequence>
+      <outSequence>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <log level="full"/>
+         <send/>
+      </outSequence>
+      <faultSequence/>
+   </resource>
 </api>
