@@ -473,16 +473,11 @@
       </outSequence>
       <faultSequence/>
    </resource>
-   <resource methods="POST" uri-template="/bookOffers">
+   <resource methods="POST" uri-template="/bookOffer">
       <inSequence>
-         <filter source="json-eval($.takerGets.Currency)" regex="STR">
-            <then>
-               <filter source="json-eval($.takerPays.Currency)" regex="STR">
-                  <then/>
-                  <else>
-                     <payloadFactory media-type="json">
-                        <format>
-            {{
+         <payloadFactory media-type="json">
+            <format>
+            {
     "method": "book_offers",
     "params": [
         {
@@ -490,77 +485,15 @@
                 "currency": "STR"
             },
             "taker_pays": {
-                "issuer": "$1",
-                "currency": "$2"
+                "issuer": "gnhPFpbYXcYGMkGxfWdQGFfuKEdJoEThVo",
+                "currency": "LKR"
             }
         }
     ]
 }
            </format>
-                        <args>
-                           <arg evaluator="json" expression="$.takerPays.Issuer"/>
-                           <arg evaluator="json" expression="$.takerPays.Currency"/>
-                        </args>
-                     </payloadFactory>
-                  </else>
-               </filter>
-            </then>
-            <else>
-               <filter source="json-eval($.takerPays.Currency)" regex="STR">
-                  <then>
-                     <payloadFactory media-type="json">
-                        <format>
-            {{
-    "method": "book_offers",
-    "params": [
-        {
-            "taker_gets": {
-                "currency": "$1",
-                "issuer": "$2"
-            },
-            "taker_pays": {
-                "currency": "STR"
-            }
-        }
-    ]
-}
-           </format>
-                        <args>
-                           <arg evaluator="json" expression="$.takerGets.Currency"/>
-                           <arg evaluator="json" expression="$.takerGets.Issuer"/>
-                        </args>
-                     </payloadFactory>
-                  </then>
-                  <else>
-                     <payloadFactory media-type="json">
-                        <format>
-            {{
-    "method": "book_offers",
-    "params": [
-        {
-            "taker_gets": {
-                "currency": "$1",
-                "issuer": "$2"
-            },
-            "taker_pays": {
-                "issuer": "$3",
-                "currency": "$4"
-            }
-        }
-    ]
-}
-           </format>
-                        <args>
-                           <arg evaluator="json" expression="$.takerGets.Currency"/>
-                           <arg evaluator="json" expression="$.takerGets.Issuer"/>
-                           <arg evaluator="json" expression="$.takerPays.Issuer"/>
-                           <arg evaluator="json" expression="$.takerPays.Currency"/>
-                        </args>
-                     </payloadFactory>
-                  </else>
-               </filter>
-            </else>
-         </filter>
+            <args/>
+         </payloadFactory>
          <property name="messageType"
                    value="application/json"
                    scope="axis2"

@@ -1134,7 +1134,7 @@
         <outSequenceKey prettyName="Out Sequence Reference" keyName="key" keyValue="/default/key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
         <faultSequenceKey prettyName="Fault Sequence Reference" keyName="key" keyValue="/default/key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
       </resources>
-      <resources urlStyle="URI_TEMPLATE" uriTemplate="/bookOffers" allowPost="true">
+      <resources urlStyle="URI_TEMPLATE" uriTemplate="/bookOffer" allowPost="true">
         <inputConnector incomingLinks="//@server/@children.0/@resources.11/@container/@sequenceAndEndpointContainer/@mediatorFlow/@children.5/@OutputConnector/@outgoingLink"/>
         <outputConnector>
           <outgoingLink target="//@server/@children.0/@resources.11/@container/@sequenceAndEndpointContainer/@mediatorFlow/@children.0/@inputConnector"/>
@@ -1147,109 +1147,12 @@
         <container>
           <sequenceAndEndpointContainer>
             <mediatorFlow>
-              <children xsi:type="esb:FilterMediator" regex="STR">
+              <children xsi:type="esb:PayloadFactoryMediator" payload="&#xA;            {&#xA;    &quot;method&quot;: &quot;book_offers&quot;,&#xA;    &quot;params&quot;: [&#xA;        {&#xA;            &quot;taker_gets&quot;: {&#xA;                &quot;currency&quot;: &quot;STR&quot;&#xA;            },&#xA;            &quot;taker_pays&quot;: {&#xA;                &quot;issuer&quot;: &quot;gnhPFpbYXcYGMkGxfWdQGFfuKEdJoEThVo&quot;,&#xA;                &quot;currency&quot;: &quot;LKR&quot;&#xA;            }&#xA;        }&#xA;    ]&#xA;}&#xA;           " mediaType="json">
+                <payloadKey prettyName="Sequence Key" keyName="Sequence Key" keyValue="/default/key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
                 <inputConnector incomingLinks="//@server/@children.0/@resources.11/@outputConnector/@outgoingLink"/>
                 <outputConnector>
                   <outgoingLink target="//@server/@children.0/@resources.11/@container/@sequenceAndEndpointContainer/@mediatorFlow/@children.1/@inputConnector"/>
                 </outputConnector>
-                <passOutputConnector>
-                  <outgoingLink target="//@server/@children.0/@resources.11/@container/@sequenceAndEndpointContainer/@mediatorFlow/@children.0/@filterContainer/@passContainer/@mediatorFlow/@children.0/@inputConnector"/>
-                </passOutputConnector>
-                <failOutputConnector>
-                  <outgoingLink target="//@server/@children.0/@resources.11/@container/@sequenceAndEndpointContainer/@mediatorFlow/@children.0/@filterContainer/@failContainer/@mediatorFlow/@children.0/@inputConnector"/>
-                </failOutputConnector>
-                <xpath prettyName="Filter Source XPath" propertyName="filterSourceXpath" propertyValue="/default/xpath" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                <source propertyValue="json-eval($.takerGets.Currency)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                <filterContainer>
-                  <passContainer>
-                    <mediatorFlow>
-                      <children xsi:type="esb:FilterMediator" regex="STR">
-                        <inputConnector incomingLinks="//@server/@children.0/@resources.11/@container/@sequenceAndEndpointContainer/@mediatorFlow/@children.0/@passOutputConnector/@outgoingLink"/>
-                        <outputConnector/>
-                        <passOutputConnector/>
-                        <failOutputConnector>
-                          <outgoingLink target="//@server/@children.0/@resources.11/@container/@sequenceAndEndpointContainer/@mediatorFlow/@children.0/@filterContainer/@passContainer/@mediatorFlow/@children.0/@filterContainer/@failContainer/@mediatorFlow/@children.0/@inputConnector"/>
-                        </failOutputConnector>
-                        <xpath prettyName="Filter Source XPath" propertyName="filterSourceXpath" propertyValue="/default/xpath" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                        <source propertyValue="json-eval($.takerPays.Currency)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                        <filterContainer>
-                          <passContainer>
-                            <mediatorFlow/>
-                          </passContainer>
-                          <failContainer>
-                            <mediatorFlow>
-                              <children xsi:type="esb:PayloadFactoryMediator" payload="&#xA;            {{&#xA;    &quot;method&quot;: &quot;book_offers&quot;,&#xA;    &quot;params&quot;: [&#xA;        {&#xA;            &quot;taker_gets&quot;: {&#xA;                &quot;currency&quot;: &quot;STR&quot;&#xA;            },&#xA;            &quot;taker_pays&quot;: {&#xA;                &quot;issuer&quot;: &quot;$1&quot;,&#xA;                &quot;currency&quot;: &quot;$2&quot;&#xA;            }&#xA;        }&#xA;    ]&#xA;}&#xA;           " mediaType="json">
-                                <payloadKey prettyName="Sequence Key" keyName="Sequence Key" keyValue="/default/key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                                <args argumentType="Expression" evaluator="json">
-                                  <argumentExpression propertyValue="json-eval($.takerPays.Issuer)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                                </args>
-                                <args argumentType="Expression" evaluator="json">
-                                  <argumentExpression propertyValue="json-eval($.takerPays.Currency)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                                </args>
-                                <inputConnector incomingLinks="//@server/@children.0/@resources.11/@container/@sequenceAndEndpointContainer/@mediatorFlow/@children.0/@filterContainer/@passContainer/@mediatorFlow/@children.0/@failOutputConnector/@outgoingLink"/>
-                                <outputConnector/>
-                              </children>
-                            </mediatorFlow>
-                          </failContainer>
-                        </filterContainer>
-                      </children>
-                    </mediatorFlow>
-                  </passContainer>
-                  <failContainer>
-                    <mediatorFlow>
-                      <children xsi:type="esb:FilterMediator" regex="STR">
-                        <inputConnector incomingLinks="//@server/@children.0/@resources.11/@container/@sequenceAndEndpointContainer/@mediatorFlow/@children.0/@failOutputConnector/@outgoingLink"/>
-                        <outputConnector/>
-                        <passOutputConnector>
-                          <outgoingLink target="//@server/@children.0/@resources.11/@container/@sequenceAndEndpointContainer/@mediatorFlow/@children.0/@filterContainer/@failContainer/@mediatorFlow/@children.0/@filterContainer/@passContainer/@mediatorFlow/@children.0/@inputConnector"/>
-                        </passOutputConnector>
-                        <failOutputConnector>
-                          <outgoingLink target="//@server/@children.0/@resources.11/@container/@sequenceAndEndpointContainer/@mediatorFlow/@children.0/@filterContainer/@failContainer/@mediatorFlow/@children.0/@filterContainer/@failContainer/@mediatorFlow/@children.0/@inputConnector"/>
-                        </failOutputConnector>
-                        <xpath prettyName="Filter Source XPath" propertyName="filterSourceXpath" propertyValue="/default/xpath" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                        <source propertyValue="json-eval($.takerPays.Currency)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                        <filterContainer>
-                          <passContainer>
-                            <mediatorFlow>
-                              <children xsi:type="esb:PayloadFactoryMediator" payload="&#xA;            {{&#xA;    &quot;method&quot;: &quot;book_offers&quot;,&#xA;    &quot;params&quot;: [&#xA;        {&#xA;            &quot;taker_gets&quot;: {&#xA;                &quot;currency&quot;: &quot;$1&quot;,&#xA;                &quot;issuer&quot;: &quot;$2&quot;&#xA;            },&#xA;            &quot;taker_pays&quot;: {&#xA;                &quot;currency&quot;: &quot;STR&quot;&#xA;            }&#xA;        }&#xA;    ]&#xA;}&#xA;           " mediaType="json">
-                                <payloadKey prettyName="Sequence Key" keyName="Sequence Key" keyValue="/default/key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                                <args argumentType="Expression" evaluator="json">
-                                  <argumentExpression propertyValue="json-eval($.takerGets.Currency)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                                </args>
-                                <args argumentType="Expression" evaluator="json">
-                                  <argumentExpression propertyValue="json-eval($.takerGets.Issuer)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                                </args>
-                                <inputConnector incomingLinks="//@server/@children.0/@resources.11/@container/@sequenceAndEndpointContainer/@mediatorFlow/@children.0/@filterContainer/@failContainer/@mediatorFlow/@children.0/@passOutputConnector/@outgoingLink"/>
-                                <outputConnector/>
-                              </children>
-                            </mediatorFlow>
-                          </passContainer>
-                          <failContainer>
-                            <mediatorFlow>
-                              <children xsi:type="esb:PayloadFactoryMediator" payload="&#xA;            {{&#xA;    &quot;method&quot;: &quot;book_offers&quot;,&#xA;    &quot;params&quot;: [&#xA;        {&#xA;            &quot;taker_gets&quot;: {&#xA;                &quot;currency&quot;: &quot;$1&quot;,&#xA;                &quot;issuer&quot;: &quot;$2&quot;&#xA;            },&#xA;            &quot;taker_pays&quot;: {&#xA;                &quot;issuer&quot;: &quot;$3&quot;,&#xA;                &quot;currency&quot;: &quot;$4&quot;&#xA;            }&#xA;        }&#xA;    ]&#xA;}&#xA;           " mediaType="json">
-                                <payloadKey prettyName="Sequence Key" keyName="Sequence Key" keyValue="/default/key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                                <args argumentType="Expression" evaluator="json">
-                                  <argumentExpression propertyValue="json-eval($.takerGets.Currency)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                                </args>
-                                <args argumentType="Expression" evaluator="json">
-                                  <argumentExpression propertyValue="json-eval($.takerGets.Issuer)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                                </args>
-                                <args argumentType="Expression" evaluator="json">
-                                  <argumentExpression propertyValue="json-eval($.takerPays.Issuer)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                                </args>
-                                <args argumentType="Expression" evaluator="json">
-                                  <argumentExpression propertyValue="json-eval($.takerPays.Currency)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
-                                </args>
-                                <inputConnector incomingLinks="//@server/@children.0/@resources.11/@container/@sequenceAndEndpointContainer/@mediatorFlow/@children.0/@filterContainer/@failContainer/@mediatorFlow/@children.0/@failOutputConnector/@outgoingLink"/>
-                                <outputConnector/>
-                              </children>
-                            </mediatorFlow>
-                          </failContainer>
-                        </filterContainer>
-                      </children>
-                    </mediatorFlow>
-                  </failContainer>
-                </filterContainer>
               </children>
               <children xsi:type="esb:PropertyMediator" propertyName="messageType" propertyScope="axis2" value="application/json">
                 <inputConnector incomingLinks="//@server/@children.0/@resources.11/@container/@sequenceAndEndpointContainer/@mediatorFlow/@children.0/@outputConnector/@outgoingLink"/>
