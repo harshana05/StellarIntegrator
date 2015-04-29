@@ -607,4 +607,54 @@
       </outSequence>
       <faultSequence/>
    </resource>
+   <resource methods="POST" uri-template="/lookupStaticPaths">
+      <inSequence>
+         <payloadFactory media-type="json">
+            <format>
+            {
+    "method": "static_path_find",
+    "params": [
+        {
+            "source_account": "$1",
+            "destination_account": "$2",
+            "destination_amount": {
+                "currency": "$3",
+                "value": "$4",
+                "issuer": "$5"
+            }
+        }
+    ]
+}
+           </format>
+            <args>
+               <arg evaluator="json" expression="$.APIRequest.SourceAcctId"/>
+               <arg evaluator="json" expression="$.APIRequest.DestinationAcctId"/>
+               <arg evaluator="json" expression="$.APIRequest.DestinationAmount.Currency"/>
+               <arg evaluator="json" expression="$.APIRequest.DestinationAmount.Value"/>
+               <arg evaluator="json" expression="$.APIRequest.DestinationAmount.Issuer"/>
+            </args>
+         </payloadFactory>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <property name="FORCE_HTTP_1.0" value="true" scope="axis2" type="STRING"/>
+         <property name="DISABLE_CHUNKING"
+                   value="true"
+                   scope="axis2"
+                   type="STRING"/>
+         <send>
+            <endpoint key="StellerTestEndpoint"/>
+         </send>
+      </inSequence>
+      <outSequence>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <log level="full"/>
+         <send/>
+      </outSequence>
+      <faultSequence/>
+   </resource>
 </api>
