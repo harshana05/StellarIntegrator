@@ -124,10 +124,10 @@
 }
            </format>
                   <args>
-                     <arg evaluator="json" expression="$.SourceSecret"/>
-                     <arg evaluator="json" expression="$.SourceAcctId"/>
-                     <arg evaluator="json" expression="$.DestinationAcctId"/>
-                     <arg evaluator="json" expression="$.Amount"/>
+                     <arg evaluator="json" expression="$.APIRequest.SourceSecret"/>
+                     <arg evaluator="json" expression="$.APIRequest.SourceAcctId"/>
+                     <arg evaluator="json" expression="$.APIRequest.DestinationAcctId"/>
+                     <arg evaluator="json" expression="$.APIRequest.Amount"/>
                   </args>
                </payloadFactory>
             </then>
@@ -154,12 +154,12 @@
 }
            </format>
                   <args>
-                     <arg evaluator="json" expression="$.SourceSecret"/>
-                     <arg evaluator="json" expression="$.SourceAcctId"/>
-                     <arg evaluator="json" expression="$.DestinationAcctId"/>
-                     <arg evaluator="json" expression="$.Amount.Currency"/>
-                     <arg evaluator="json" expression="$.Amount.Value"/>
-                     <arg evaluator="json" expression="$.Amount.IssuerId"/>
+                     <arg evaluator="json" expression="$.APIRequest.SourceSecret"/>
+                     <arg evaluator="json" expression="$.APIRequest.SourceAcctId"/>
+                     <arg evaluator="json" expression="$.APIRequest.DestinationAcctId"/>
+                     <arg evaluator="json" expression="$.APIRequest.Amount.Currency"/>
+                     <arg evaluator="json" expression="$.APIRequest.Amount.Value"/>
+                     <arg evaluator="json" expression="$.APIRequest.Amount.IssuerId"/>
                   </args>
                </payloadFactory>
             </else>

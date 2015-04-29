@@ -330,16 +330,16 @@
                       <children xsi:type="esb:PayloadFactoryMediator" payload="&#xA;            {&#xA;  &quot;method&quot;: &quot;submit&quot;,&#xA;  &quot;params&quot;: [&#xA;    {&#xA;      &quot;secret&quot;: &quot;$1&quot;,&#xA;      &quot;tx_json&quot;: {&#xA;        &quot;TransactionType&quot;: &quot;Payment&quot;,&#xA;        &quot;Account&quot;: &quot;$2&quot;,&#xA;        &quot;Destination&quot;: &quot;$3&quot;,&#xA;        &quot;Amount&quot;: &quot;$4&quot;&#xA;      }&#xA;    }&#xA;  ]&#xA;}&#xA;           " mediaType="json">
                         <payloadKey prettyName="Sequence Key" keyName="Sequence Key" keyValue="/default/key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
                         <args argumentType="Expression" evaluator="json">
-                          <argumentExpression propertyValue="json-eval($.SourceSecret)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
+                          <argumentExpression propertyValue="json-eval($.APIRequest.SourceSecret)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
                         </args>
                         <args argumentType="Expression" evaluator="json">
-                          <argumentExpression propertyValue="json-eval($.SourceAcctId)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
+                          <argumentExpression propertyValue="json-eval($.APIRequest.SourceAcctId)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
                         </args>
                         <args argumentType="Expression" evaluator="json">
-                          <argumentExpression propertyValue="json-eval($.DestinationAcctId)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
+                          <argumentExpression propertyValue="json-eval($.APIRequest.DestinationAcctId)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
                         </args>
                         <args argumentType="Expression" evaluator="json">
-                          <argumentExpression propertyValue="json-eval($.Amount)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
+                          <argumentExpression propertyValue="json-eval($.APIRequest.Amount)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
                         </args>
                         <inputConnector incomingLinks="//@server/@children.0/@resources.3/@container/@sequenceAndEndpointContainer/@mediatorFlow/@children.0/@passOutputConnector/@outgoingLink"/>
                         <outputConnector/>
@@ -351,22 +351,22 @@
                       <children xsi:type="esb:PayloadFactoryMediator" payload="&#xA;            {&#xA;  &quot;method&quot;: &quot;submit&quot;,&#xA;  &quot;params&quot;: [&#xA;    {&#xA;      &quot;secret&quot;: &quot;$1&quot;,&#xA;      &quot;tx_json&quot;: {&#xA;        &quot;TransactionType&quot;: &quot;Payment&quot;,&#xA;        &quot;Account&quot;: &quot;$2&quot;,&#xA;        &quot;Destination&quot;: &quot;$3&quot;,&#xA;        &quot;Amount&quot;: {&#xA;          &quot;currency&quot;: &quot;$4&quot;,&#xA;          &quot;value&quot;: &quot;$5&quot;,&#xA;          &quot;issuer&quot;: &quot;$6&quot;&#xA;        }&#xA;      }&#xA;    }&#xA;  ]&#xA;}&#xA;           " mediaType="json">
                         <payloadKey prettyName="Sequence Key" keyName="Sequence Key" keyValue="/default/key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
                         <args argumentType="Expression" evaluator="json">
-                          <argumentExpression propertyValue="json-eval($.SourceSecret)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
+                          <argumentExpression propertyValue="json-eval($.APIRequest.SourceSecret)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
                         </args>
                         <args argumentType="Expression" evaluator="json">
-                          <argumentExpression propertyValue="json-eval($.SourceAcctId)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
+                          <argumentExpression propertyValue="json-eval($.APIRequest.SourceAcctId)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
                         </args>
                         <args argumentType="Expression" evaluator="json">
-                          <argumentExpression propertyValue="json-eval($.DestinationAcctId)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
+                          <argumentExpression propertyValue="json-eval($.APIRequest.DestinationAcctId)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
                         </args>
                         <args argumentType="Expression" evaluator="json">
-                          <argumentExpression propertyValue="json-eval($.Amount.Currency)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
+                          <argumentExpression propertyValue="json-eval($.APIRequest.Amount.Currency)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
                         </args>
                         <args argumentType="Expression" evaluator="json">
-                          <argumentExpression propertyValue="json-eval($.Amount.Value)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
+                          <argumentExpression propertyValue="json-eval($.APIRequest.Amount.Value)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
                         </args>
                         <args argumentType="Expression" evaluator="json">
-                          <argumentExpression propertyValue="json-eval($.Amount.IssuerId)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
+                          <argumentExpression propertyValue="json-eval($.APIRequest.Amount.IssuerId)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000107708000000100000000078"/>
                         </args>
                         <inputConnector incomingLinks="//@server/@children.0/@resources.3/@container/@sequenceAndEndpointContainer/@mediatorFlow/@children.0/@failOutputConnector/@outgoingLink"/>
                         <outputConnector/>
