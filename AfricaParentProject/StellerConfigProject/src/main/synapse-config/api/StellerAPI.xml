@@ -878,4 +878,77 @@
       </outSequence>
       <faultSequence/>
    </resource>
+   <resource methods="POST" uri-template="/setRegularKey">
+      <inSequence>
+         <filter source="boolean(//APIRequest/RegularKey)" regex="true">
+            <then>
+               <payloadFactory media-type="json">
+                  <format>
+            {
+    "method": "submit",
+    "params": [
+        {
+            "secret": "$1",
+            "tx_json": {
+                "TransactionType": "SetRegularKey",
+                "Account": "$2",
+                "RegularKey": "$3"
+            }
+        }
+    ]
+}
+           </format>
+                  <args>
+                     <arg evaluator="json" expression="$.APIRequest.SourceSecret"/>
+                     <arg evaluator="json" expression="$.APIRequest.SourceAcctId"/>
+                     <arg evaluator="json" expression="$.APIRequest.RegularKey"/>
+                  </args>
+               </payloadFactory>
+            </then>
+            <else>
+               <payloadFactory media-type="json">
+                  <format>
+            {
+    "method": "submit",
+    "params": [
+        {
+            "secret": "$1",
+            "tx_json": {
+                "TransactionType": "SetRegularKey",
+                "Account": "$2"
+            }
+        }
+    ]
+}
+           </format>
+                  <args>
+                     <arg evaluator="json" expression="$.APIRequest.SourceSecret"/>
+                     <arg evaluator="json" expression="$.APIRequest.SourceAcctId"/>
+                  </args>
+               </payloadFactory>
+            </else>
+         </filter>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <property name="FORCE_HTTP_1.0" value="true" scope="axis2" type="STRING"/>
+         <property name="DISABLE_CHUNKING"
+                   value="true"
+                   scope="axis2"
+                   type="STRING"/>
+         <send>
+            <endpoint key="StellerTestEndpoint"/>
+         </send>
+      </inSequence>
+      <outSequence>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <log level="full"/>
+         <send/>
+      </outSequence>
+      <faultSequence/>
+   </resource>
 </api>
