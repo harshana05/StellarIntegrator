@@ -951,4 +951,115 @@
       </outSequence>
       <faultSequence/>
    </resource>
+   <resource methods="POST" uri-template="/flagAccount?type={type}">
+      <inSequence>
+         <filter source="get-property('query.param.type')" regex="SET">
+            <then>
+               <filter source="//APIRequest/AcctFlag" regex="1|2|4">
+                  <then>
+                     <payloadFactory media-type="json">
+                        <format>
+            {
+    "method": "submit",
+    "params": [
+        {
+            "secret": "$1",
+            "tx_json": {
+                "TransactionType": "AccountSet",
+                "Account": "$2",
+                "SetFlag": "$3"
+            }
+        }
+    ]
+}
+           </format>
+                        <args>
+                           <arg evaluator="json" expression="$.APIRequest.SourceSecret"/>
+                           <arg evaluator="json" expression="$.APIRequest.SourceAcctId"/>
+                           <arg evaluator="json" expression="$.APIRequest.AcctFlag"/>
+                        </args>
+                     </payloadFactory>
+                  </then>
+                  <else>
+                     <payloadFactory media-type="json">
+                        <format>
+            {
+  "APIResponse": {
+    "StatusCode": "100002",
+    "Description": "Invalid Account Flag to Set"
+  }
+}
+           </format>
+                        <args/>
+                     </payloadFactory>
+                     <respond/>
+                  </else>
+               </filter>
+            </then>
+            <else>
+               <filter source="//APIRequest/AcctFlag" regex="1|2|4">
+                  <then>
+                     <payloadFactory media-type="json">
+                        <format>
+            {
+    "method": "submit",
+    "params": [
+        {
+            "secret": "$1",
+            "tx_json": {
+                "TransactionType": "AccountSet",
+                "Account": "$2",
+                "ClearFlag": "$3"
+            }
+        }
+    ]
+}
+           </format>
+                        <args>
+                           <arg evaluator="json" expression="$.APIRequest.SourceSecret"/>
+                           <arg evaluator="json" expression="$.APIRequest.SourceAcctId"/>
+                           <arg evaluator="json" expression="$.APIRequest.AcctFlag"/>
+                        </args>
+                     </payloadFactory>
+                  </then>
+                  <else>
+                     <payloadFactory media-type="json">
+                        <format>
+            {
+  "APIResponse": {
+    "StatusCode": "100002",
+    "Description": "Invalid Account Flag to Clear"
+  }
+}
+           </format>
+                        <args/>
+                     </payloadFactory>
+                     <respond/>
+                  </else>
+               </filter>
+            </else>
+         </filter>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <property name="FORCE_HTTP_1.0" value="true" scope="axis2" type="STRING"/>
+         <property name="DISABLE_CHUNKING"
+                   value="true"
+                   scope="axis2"
+                   type="STRING"/>
+         <send>
+            <endpoint key="StellerTestEndpoint"/>
+         </send>
+      </inSequence>
+      <outSequence>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <log level="full"/>
+         <send/>
+      </outSequence>
+      <faultSequence/>
+   </resource>
 </api>
