@@ -1272,4 +1272,92 @@
       </outSequence>
       <faultSequence/>
    </resource>
+   <resource methods="POST" uri-template="/trustSet?type={type}">
+      <inSequence>
+         <filter source="get-property('query.param.type')" regex="SET">
+            <then>
+               <payloadFactory media-type="json">
+                  <format>
+            {
+    "method": "submit",
+    "params": [
+        {
+            "secret": "$1",
+            "tx_json": {
+                "TransactionType": "TrustSet",
+                "Account": "$2",
+                "LimitAmount": {
+                    "currency": "$3",
+                    "value": "$4",
+                    "issuer": "$5"
+                },
+                "Flags": 131072
+            }
+        }
+    ]
+}
+           </format>
+                  <args>
+                     <arg evaluator="json" expression="$.APIRequest.SourceSecret"/>
+                     <arg evaluator="json" expression="$.APIRequest.SourceAcctId"/>
+                     <arg evaluator="json" expression="$.APIRequest.Limit.Currency"/>
+                     <arg evaluator="json" expression="$.APIRequest.Limit.Value"/>
+                     <arg evaluator="json" expression="$.APIRequest.Limit.Issuer"/>
+                  </args>
+               </payloadFactory>
+            </then>
+            <else>
+               <payloadFactory media-type="json">
+                  <format>
+            {
+    "method": "submit",
+    "params": [
+        {
+            "secret": "$1",
+            "tx_json": {
+                "TransactionType": "TrustSet",
+                "Account": "$2",
+                "LimitAmount": {
+                    "currency": "$3",
+                    "value": "0",
+                    "issuer": "$4"
+                },
+                "Flags": 262144
+            }
+        }
+    ]
+}
+           </format>
+                  <args>
+                     <arg evaluator="json" expression="$.APIRequest.SourceSecret"/>
+                     <arg evaluator="json" expression="$.APIRequest.SourceAcctId"/>
+                     <arg evaluator="json" expression="$.APIRequest.Limit.Currency"/>
+                     <arg evaluator="json" expression="$.APIRequest.Limit.Issuer"/>
+                  </args>
+               </payloadFactory>
+            </else>
+         </filter>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <property name="FORCE_HTTP_1.0" value="true" scope="axis2" type="STRING"/>
+         <property name="DISABLE_CHUNKING"
+                   value="true"
+                   scope="axis2"
+                   type="STRING"/>
+         <send>
+            <endpoint key="StellerTestEndpoint"/>
+         </send>
+      </inSequence>
+      <outSequence>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <log level="full"/>
+         <send/>
+      </outSequence>
+      <faultSequence/>
+   </resource>
 </api>
