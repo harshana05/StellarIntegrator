@@ -1225,4 +1225,51 @@
       </outSequence>
       <faultSequence/>
    </resource>
+   <resource methods="POST" uri-template="/offerCancel">
+      <inSequence>
+         <payloadFactory media-type="json">
+            <format>
+            {
+    "method": "submit",
+    "params": [
+        {
+            "secret": "$1",
+            "tx_json": {
+                "TransactionType": "OfferCancel",
+                "Account": "$2",
+                "OfferSequence": "$3"
+            }
+        }
+    ]
+}
+           </format>
+            <args>
+               <arg evaluator="json" expression="$.APIRequest.SourceSecret"/>
+               <arg evaluator="json" expression="$.APIRequest.SourceAcctId"/>
+               <arg evaluator="json" expression="$.APIRequest.OfferSequenceId"/>
+            </args>
+         </payloadFactory>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <property name="FORCE_HTTP_1.0" value="true" scope="axis2" type="STRING"/>
+         <property name="DISABLE_CHUNKING"
+                   value="true"
+                   scope="axis2"
+                   type="STRING"/>
+         <send>
+            <endpoint key="StellerTestEndpoint"/>
+         </send>
+      </inSequence>
+      <outSequence>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <log level="full"/>
+         <send/>
+      </outSequence>
+      <faultSequence/>
+   </resource>
 </api>
