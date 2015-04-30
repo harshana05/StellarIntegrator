@@ -1062,4 +1062,167 @@
       </outSequence>
       <faultSequence/>
    </resource>
+   <resource methods="POST" uri-template="/offerCreate?from={from}&amp;to={to}">
+      <inSequence>
+         <filter source="get-property('query.param.from')" regex="STR">
+            <then>
+               <filter source="get-property('query.param.to')" regex="STR">
+                  <then>
+                     <payloadFactory media-type="json">
+                        <format>
+            {
+    "method": "submit",
+    "params": [
+        {
+            "secret": "$1",
+            "tx_json": {
+                "TransactionType": "OfferCreate",
+                "Account": "$2",
+                "TakerGets": "$3",
+                "TakerPays": "$4"
+            }
+        }
+    ]
+}
+           </format>
+                        <args>
+                           <arg evaluator="json" expression="$.APIRequest.SourceSecret"/>
+                           <arg evaluator="json" expression="$.APIRequest.SourceAcctId"/>
+                           <arg evaluator="json" expression="$.APIRequest.TakerGets.Value"/>
+                           <arg evaluator="json" expression="$.APIRequest.TakerPays.Value"/>
+                        </args>
+                     </payloadFactory>
+                  </then>
+                  <else>
+                     <payloadFactory media-type="json">
+                        <format>
+            {
+    "method": "submit",
+    "params": [
+        {
+            "secret": "$1",
+            "tx_json": {
+                "TransactionType": "OfferCreate",
+                "Account": "$2",
+                "TakerGets": "$3",
+                "TakerPays": {
+                    "currency": "$4",
+                    "value": "$5",
+                    "issuer": "$6"
+                }
+            }
+        }
+    ]
+}
+           </format>
+                        <args>
+                           <arg evaluator="json" expression="$.APIRequest.SourceSecret"/>
+                           <arg evaluator="json" expression="$.APIRequest.SourceAcctId"/>
+                           <arg evaluator="json" expression="$.APIRequest.TakerGets.Value"/>
+                           <arg evaluator="json" expression="$.APIRequest.TakerPays.Currency"/>
+                           <arg evaluator="json" expression="$.APIRequest.TakerPays.Value"/>
+                           <arg evaluator="json" expression="$.APIRequest.TakerPays.Issuer"/>
+                        </args>
+                     </payloadFactory>
+                  </else>
+               </filter>
+            </then>
+            <else>
+               <filter source="get-property('query.param.to')" regex="STR">
+                  <then>
+                     <payloadFactory media-type="json">
+                        <format>
+            {
+    "method": "submit",
+    "params": [
+        {
+            "secret": "$1",
+            "tx_json": {
+                "TransactionType": "OfferCreate",
+                "Account": "$2",
+                "TakerGets": {
+                    "currency": "$3",
+                    "value": "$4",
+                    "issuer": "$5"
+                },
+                "TakerPays": "$6"
+            }
+        }
+    ]
+}
+           </format>
+                        <args>
+                           <arg evaluator="json" expression="$.APIRequest.SourceSecret"/>
+                           <arg evaluator="json" expression="$.APIRequest.SourceAcctId"/>
+                           <arg evaluator="json" expression="$.APIRequest.TakerGets.Currency"/>
+                           <arg evaluator="json" expression="$.APIRequest.TakerGets.Value"/>
+                           <arg evaluator="json" expression="$.APIRequest.TakerGets.Issuer"/>
+                           <arg evaluator="json" expression="$.APIRequest.TakerPays.Value"/>
+                        </args>
+                     </payloadFactory>
+                  </then>
+                  <else>
+                     <payloadFactory media-type="json">
+                        <format>
+            {
+    "method": "submit",
+    "params": [
+        {
+            "secret": "$1",
+            "tx_json": {
+                "TransactionType": "OfferCreate",
+                "Account": "$2",
+                "TakerGets": {
+                    "currency": "$3",
+                    "value": "$4",
+                    "issuer": "$5"
+                },
+                "TakerPays": {
+                    "currency": "$6",
+                    "value": "$7",
+                    "issuer": "$8"
+                }
+            }
+        }
+    ]
+}
+           </format>
+                        <args>
+                           <arg evaluator="json" expression="$.APIRequest.SourceSecret"/>
+                           <arg evaluator="json" expression="$.APIRequest.SourceAcctId"/>
+                           <arg evaluator="json" expression="$.APIRequest.TakerGets.Currency"/>
+                           <arg evaluator="json" expression="$.APIRequest.TakerGets.Value"/>
+                           <arg evaluator="json" expression="$.APIRequest.TakerGets.Issuer"/>
+                           <arg evaluator="json" expression="$.APIRequest.TakerPays.Currency"/>
+                           <arg evaluator="json" expression="$.APIRequest.TakerPays.Value"/>
+                           <arg evaluator="json" expression="$.APIRequest.TakerPays.Issuer"/>
+                        </args>
+                     </payloadFactory>
+                  </else>
+               </filter>
+            </else>
+         </filter>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <property name="FORCE_HTTP_1.0" value="true" scope="axis2" type="STRING"/>
+         <property name="DISABLE_CHUNKING"
+                   value="true"
+                   scope="axis2"
+                   type="STRING"/>
+         <send>
+            <endpoint key="StellerTestEndpoint"/>
+         </send>
+      </inSequence>
+      <outSequence>
+         <property name="messageType"
+                   value="application/json"
+                   scope="axis2"
+                   type="STRING"/>
+         <log level="full"/>
+         <send/>
+      </outSequence>
+      <faultSequence/>
+   </resource>
 </api>
